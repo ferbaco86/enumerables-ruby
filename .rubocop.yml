@@ -49,3 +49,5 @@ Style/HashTransformKeys:
   Enabled: false
 Style/HashTransformValues:
   Enabled: false
+  
+  # rubocop:disable Style/CaseEquality
