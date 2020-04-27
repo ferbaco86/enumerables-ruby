@@ -40,5 +40,24 @@ module Enumerable
       end
       arr
   end
+
+  def my_all?( args = nil)
+    true_cont = 0
+    p args
+
+    my_each do |item|
+      true_cont += 1
+      is_type = item.is_a? args
+    if block_given?
+      return false unless yield(item)
+    end
+      return true if true_cont == self.size
+      if is_type
+        return true
+      else
+         return false
+      end
+    end
+  end
 end
 
