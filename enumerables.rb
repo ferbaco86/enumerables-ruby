@@ -2,9 +2,17 @@ module Enumerable
   def my_each
     return enum_for(:my_each) unless block_given?
 
-    for value in self
-      yield(value)
+    cont = 0
+    arr = * self
+
+    while arr.length > cont
+      yield(arr[cont])
+      cont += 1
     end
+
+    # for value in self
+    #   yield(value)
+    # end
   end
 
   def my_each_with_index
