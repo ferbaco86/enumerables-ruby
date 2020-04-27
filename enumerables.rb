@@ -9,6 +9,7 @@ module Enumerable
       yield(arr[cont])
       cont += 1
     end
+    arr
 
     # for value in self
     #   yield(value)
@@ -26,24 +27,18 @@ module Enumerable
       end
     end
   end
+
+  def my_select
+    return enum_for(:my_select) unless block_given?
+    arr = []
+    cont = 0
+
+    my_each do |item|
+        if yield(item)
+          arr.push(item)
+        end                          
+      end
+      arr
+  end
 end
-my_array = [1, 2, 3, 4, 5, 6]
-my_string = 'Fernando'
-my_hash = { 'Fernando' => 1986, 'Rocio' => 1995, 'Joaquin' => 1988 }
 
-my_array.my_each { |num| puts num }
-my_array.each { |num| puts num }
-my_array.my_each_with_index { |item, index| puts "#{item} #{index}" }
-my_array.each_with_index { |item, index| puts "#{item} #{index}" }
-
-my_string.split('').my_each { |char| puts char }
-my_string.split('').each { |char| puts char }
-my_string.split('').my_each_with_index { |item, index| puts "#{item} #{index}" }
-my_string.split('').each_with_index { |item, index| puts "#{item} #{index}" }
-
-my_hash.my_each { |item, index| puts "#{item} #{index}" }
-my_hash.each { |item, index| puts "#{item} #{index}" }
-my_hash.my_each_with_index { |item, index| puts "#{item} #{index}" }
-my_hash.each_with_index { |item, index| puts "#{item} #{index}" }
-
-# %w[cat dog mouse].my_each_with_index {|pet, index| puts "#{pet} #{index}"}
