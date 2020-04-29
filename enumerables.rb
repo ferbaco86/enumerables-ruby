@@ -52,12 +52,22 @@ module Enumerable
   # which will cause all? to return true when none of the collection members are false or nil.
   # If instead a pattern is supplied, the method returns whether pattern === element for every collection member.
 
-  def my_all?
+  # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+  def my_all?(args = nil)
+    return true if empty?
+
     false_elements = []
     my_each do |item|
-      p item
-      false_elements.push(item) if !item || item.nil?
+      if block_given?
+        false_elements.push(item) unless yield(item)
+      elsif !args.nil?
+        false_elements.push(item) unless args == item
+      elsif !item || item.nil?
+        false_elements.push(item)
+        # false_elements.push(item) if !item || item.nil?
+      end
     end
     false_elements.empty? ? true : false
   end
+  # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 end
