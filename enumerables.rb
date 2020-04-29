@@ -71,6 +71,28 @@ module Enumerable
   end
 
   # Passes each element of the collection to the given block.
+  # The method returns true if the block ever returns a value other than false or nil.
+  # If the block is not given, Ruby adds an implicit block of { |obj| obj }
+  # that will cause any? to return true if at least one of the collection members is not false or nil.
+  # If instead a pattern is supplied, the method returns whether pattern === element for any collection member.
+
+  def my_any?(args = nil)
+    return false if empty?
+
+    true_elements = []
+    my_each do |item|
+      if block_given?
+        true_elements.push(item) if yield(item)
+      elsif !args.nil?
+        true_elements.push(item) if args === item
+      elsif item
+        true_elements.push(item)
+      end
+    end
+    true_elements.empty? ? false : true
+  end
+
+  # Passes each element of the collection to the given block.
   # The method returns true if the block never returns true for all elements.
   # If the block is not given, none? will return true only if none of the collection members is true.
   # If instead a pattern is supplied, the method returns whether pattern === element for none of the collection members.
@@ -92,4 +114,22 @@ module Enumerable
     true_elements.empty? ? true : false
   end
   # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+
+  # Returns the number of items in enum through enumeration.
+  # If an argument is given, the number of items in enum that are equal to item are counted.
+  # If a block is given, it counts the number of elements yielding a true value.
+
+  def my_count(args = nil)
+    item_counter = 0
+    my_each do |item|
+      if !args.nil?
+        item_counter += 1 if item == args
+      elsif block_given?
+        item_counter += 1 if yield(item)
+      else
+        item_counter += 1
+      end
+    end
+    item_counter
+  end
 end
