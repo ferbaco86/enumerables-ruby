@@ -61,13 +61,35 @@ module Enumerable
       if block_given?
         false_elements.push(item) unless yield(item)
       elsif !args.nil?
-        false_elements.push(item) unless args == item
+        false_elements.push(item) unless args === item
       elsif !item || item.nil?
         false_elements.push(item)
         # false_elements.push(item) if !item || item.nil?
       end
     end
     false_elements.empty? ? true : false
+  end
+
+  # Passes each element of the collection to the given block.
+  # The method returns true if the block never returns true for all elements.
+  # If the block is not given, none? will return true only if none of the collection members is true.
+  # If instead a pattern is supplied, the method returns whether pattern === element for none of the collection members.
+
+  def my_none?(args = nil)
+    return true if empty?
+
+    true_elements = []
+    my_each do |item|
+      if block_given?
+        true_elements.push(item) if yield(item)
+        p true_elements
+      elsif !args.nil?
+        true_elements.push(item) if args === item
+      elsif item
+        true_elements.push(item)
+      end
+    end
+    true_elements.empty? ? true : false
   end
   # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 end
