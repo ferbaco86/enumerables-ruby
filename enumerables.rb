@@ -132,4 +132,17 @@ module Enumerable
     end
     item_counter
   end
+
+  # Returns a new array with the results of running block once for every element in enum.
+  # If no block is given, an enumerator is returned instead.
+
+  def my_map
+    return enum_for(:my_map) unless block_given?
+
+    new_arr = []
+    my_each do |item|
+      new_arr.push(yield item)
+    end
+    new_arr
+  end
 end
