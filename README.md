@@ -1,7 +1,8 @@
 # Advanced Building Blocks - Enumerable Methods
 
 > This project consisted of recreating from scratch some of the Enumerable Methods present in Ruby and match the expected output with the original method (https://ruby-doc.org/core-2.7.0/Enumerable.html). The learning process of this project focused mainly on gaining knowledge on how to work with yield. 
-The methods recreated were:
+
+The methods recreated were: 
 <ul>
   <li>.each </li>
   <li>.each_with_index</li>
@@ -13,6 +14,7 @@ The methods recreated were:
   <li>.map</li>
   <li>.inject</li>
 </ul>
+
 
 As an additional requirement it was needed to:
 <ul>
