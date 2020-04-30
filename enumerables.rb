@@ -136,14 +136,14 @@ module Enumerable
   # Returns a new array with the results of running block once for every element in enum.
   # If no block is given, an enumerator is returned instead.
 
-  def my_map
-    return enum_for(:my_map) unless block_given?
+  def my_map(&args)
+    return enum_for unless block_given?
 
-    new_arr = []
+    new_array = []
     my_each do |item|
-      new_arr.push(yield item)
+      new_array.push(args.call(item))
     end
-    new_arr
+   new_array
   end
 
   # Combines all elements of enum by applying a binary operation, specified by a block or a symbol that names a method or operator.
@@ -174,5 +174,8 @@ def multiply_els(args)
    puts args.my_inject(:*)
 end
 
-multiply_els([2, 4, 5])
+map = proc do |num|
+      num * num
+end
 
+p [1, 2, 3, 4].my_map(&map)
