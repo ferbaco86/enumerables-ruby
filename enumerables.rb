@@ -93,13 +93,14 @@ module Enumerable
 
   def my_map(args = nil)
     return enum_for(:my_map) unless block_given?
+
     new_array = []
     if args.nil?
       my_each { |item| new_array.push(yield(item)) }
     else
       my_each { |item| new_array.push(args.call(item)) }
     end
-   new_array
+    new_array
   end
 
   def my_inject(*args)
@@ -119,5 +120,5 @@ module Enumerable
 end
 
 def multiply_els(args)
-   puts args.my_inject(:*)
+  puts args.my_inject(:*)
 end
