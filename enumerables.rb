@@ -5,7 +5,7 @@ module Enumerable
     return enum_for(:my_each) unless block_given?
 
     cont = 0
-    arr = * self
+    arr = * self # Use an if to ask for its a  (1..3).my_each is_a? Range 
 
     while arr.length > cont
       yield(arr[cont])
@@ -154,12 +154,25 @@ module Enumerable
 
   def my_inject(*args)
     arr = *self
-    temp = arr.shift unless args.nil? || args.length == 2
-    p temp
-    arr.my_each do |item|
-      temp = temp.send(args[0].to_s, item)
+    if block_given?
+      temp = args[0] if args.length == 1
+      temp = arr.shift unless args.nil? || args.length == 1
+      arr.my_each do |item|
+        temp = yield(temp, item)
+      end
+    else
+      temp = arr.shift unless args.nil? || args.length == 2
+      arr.my_each do |item|
+        temp = temp.send(args[0].to_s, item)
+      end
     end
     temp
   end
 end
+
+def multiply_els(args)
+   puts args.my_inject(:*)
+end
+
+multiply_els([2, 4, 5])
 
