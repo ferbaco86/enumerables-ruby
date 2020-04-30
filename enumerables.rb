@@ -1,26 +1,17 @@
 module Enumerable
-  # This method will execute the block for each of the array's elements.
 
   def my_each
     return enum_for(:my_each) unless block_given?
 
     cont = 0
-    arr = * self # Use an if to ask for its a  (1..3).my_each is_a? Range 
+    arr = * self
 
     while arr.length > cont
       yield(arr[cont])
       cont += 1
     end
     arr
-
-    # for value in self
-    #   yield(value)
-    # end
   end
-
-  # Calls block with two arguments, the item and its index, for each item in enum.
-  # Given arguments are passed through to each().
-  # If no block is given, an enumerator is returned instead.
 
   def my_each_with_index
     return enum_for(:my_each_with_index) unless block_given?
@@ -34,8 +25,6 @@ module Enumerable
     end
   end
 
-  # Returns an array containing all elements of enum for which the given block returns a true value.
-
   def my_select
     return enum_for(:my_select) unless block_given?
 
@@ -46,13 +35,8 @@ module Enumerable
     arr
   end
 
-  # Passes each element of the collection to the given block.
-  # The method returns true if the block never returns false or nil.
-  # If the block is not given, Ruby adds an implicit block of { |obj| obj }
-  # which will cause all? to return true when none of the collection members are false or nil.
-  # If instead a pattern is supplied, the method returns whether pattern === element for every collection member.
+  # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality
 
-  # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
   def my_all?(args = nil)
     return true if empty?
 
@@ -64,17 +48,11 @@ module Enumerable
         false_elements.push(item) unless args === item
       elsif !item || item.nil?
         false_elements.push(item)
-        # false_elements.push(item) if !item || item.nil?
       end
     end
     false_elements.empty? ? true : false
   end
 
-  # Passes each element of the collection to the given block.
-  # The method returns true if the block ever returns a value other than false or nil.
-  # If the block is not given, Ruby adds an implicit block of { |obj| obj }
-  # that will cause any? to return true if at least one of the collection members is not false or nil.
-  # If instead a pattern is supplied, the method returns whether pattern === element for any collection member.
 
   def my_any?(args = nil)
     return false if empty?
@@ -92,10 +70,6 @@ module Enumerable
     true_elements.empty? ? false : true
   end
 
-  # Passes each element of the collection to the given block.
-  # The method returns true if the block never returns true for all elements.
-  # If the block is not given, none? will return true only if none of the collection members is true.
-  # If instead a pattern is supplied, the method returns whether pattern === element for none of the collection members.
 
   def my_none?(args = nil)
     return true if empty?
@@ -113,11 +87,7 @@ module Enumerable
     end
     true_elements.empty? ? true : false
   end
-  # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 
-  # Returns the number of items in enum through enumeration.
-  # If an argument is given, the number of items in enum that are equal to item are counted.
-  # If a block is given, it counts the number of elements yielding a true value.
 
   def my_count(args = nil)
     item_counter = 0
@@ -133,8 +103,6 @@ module Enumerable
     item_counter
   end
 
-  # Returns a new array with the results of running block once for every element in enum.
-  # If no block is given, an enumerator is returned instead.
 
   def my_map(args = nil)
     return enum_for unless block_given?
@@ -151,11 +119,6 @@ module Enumerable
    new_array
   end
 
-  # Combines all elements of enum by applying a binary operation, specified by a block or a symbol that names a method or operator.
-  # If you specify a block, then for each element in enum the block is passed an accumulator value (memo) and the element. 
-  # If you specify a symbol instead, then each element in the collection will be passed to the named method of memo. 
-  # In either case, the result becomes the new value for memo. At the end of the iteration, the final value of memo is the return value for the method.
-  # If you do not explicitly specify an initial value for memo, then the first element of collection is used as the initial value of memo.
 
   def my_inject(*args)
     arr = *self
@@ -173,14 +136,11 @@ module Enumerable
     end
     temp
   end
+
+  # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality
 end
 
 def multiply_els(args)
    puts args.my_inject(:*)
 end
 
-map = proc do |num|
-      num * num
-end
-
-p [1, 2, 3, 4].my_map(&map)
