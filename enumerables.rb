@@ -136,12 +136,17 @@ module Enumerable
   # Returns a new array with the results of running block once for every element in enum.
   # If no block is given, an enumerator is returned instead.
 
-  def my_map(&args)
+  def my_map(args = nil)
     return enum_for unless block_given?
-
     new_array = []
-    my_each do |item|
-      new_array.push(args.call(item))
+    if args.nil?
+      my_each do |item|
+        new_array.push(yield(item))
+      end 
+    else
+      my_each do |item|
+        new_array.push(args.call(item))
+      end
     end
    new_array
   end
