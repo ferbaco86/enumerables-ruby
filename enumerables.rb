@@ -1,11 +1,9 @@
 module Enumerable
-
   def my_each
     return enum_for(:my_each) unless block_given?
 
     cont = 0
     arr = * self
-
     while arr.length > cont
       yield(arr[cont])
       cont += 1
@@ -17,11 +15,7 @@ module Enumerable
     return enum_for(:my_each_with_index) unless block_given?
 
     my_each do |item|
-      if self.class == Hash
-        yield(item, find_index(item))
-      else
-        yield(item, index(item))
-      end
+      self.class == Hash ? yield(item, find_index(item)) : yield(item, index(item))
     end
   end
 
@@ -29,9 +23,7 @@ module Enumerable
     return enum_for(:my_select) unless block_given?
 
     arr = []
-    my_each do |item|
-      arr.push(item) if yield(item)
-    end
+    my_each { |item| arr.push(item) if yield(item) }
     arr
   end
 
@@ -53,7 +45,6 @@ module Enumerable
     false_elements.empty? ? true : false
   end
 
-
   def my_any?(args = nil)
     return false if empty?
 
@@ -70,7 +61,6 @@ module Enumerable
     true_elements.empty? ? false : true
   end
 
-
   def my_none?(args = nil)
     return true if empty?
 
@@ -78,7 +68,6 @@ module Enumerable
     my_each do |item|
       if block_given?
         true_elements.push(item) if yield(item)
-        p true_elements
       elsif !args.nil?
         true_elements.push(item) if args === item
       elsif item
@@ -87,7 +76,6 @@ module Enumerable
     end
     true_elements.empty? ? true : false
   end
-
 
   def my_count(args = nil)
     item_counter = 0
@@ -103,36 +91,26 @@ module Enumerable
     item_counter
   end
 
-
   def my_map(args = nil)
-    return enum_for unless block_given?
+    return enum_for(:my_map) unless block_given?
     new_array = []
     if args.nil?
-      my_each do |item|
-        new_array.push(yield(item))
-      end 
+      my_each { |item| new_array.push(yield(item)) }
     else
-      my_each do |item|
-        new_array.push(args.call(item))
-      end
+      my_each { |item| new_array.push(args.call(item)) }
     end
    new_array
   end
-
 
   def my_inject(*args)
     arr = *self
     if block_given?
       temp = args[0] if args.length == 1
       temp = arr.shift unless args.nil? || args.length == 1
-      arr.my_each do |item|
-        temp = yield(temp, item)
-      end
+      arr.my_each { |item| temp = yield(temp, item) }
     else
       temp = arr.shift unless args.nil? || args.length == 2
-      arr.my_each do |item|
-        temp = temp.send(args[0].to_s, item)
-      end
+      arr.my_each { |item| temp = temp.send(args[0].to_s, item) }
     end
     temp
   end
@@ -143,4 +121,3 @@ end
 def multiply_els(args)
    puts args.my_inject(:*)
 end
-
