@@ -51,7 +51,7 @@ $ git clone git@github.com:ferbaco86/enumerables-ruby.git
 
 ## Author
 
-👤 **Luis Angel Maldonado**
+👤 **Fernando Bahamondes**
 
 - Github: [@ferbaco86](https://github.com/ferbaco86)
 - Twitter: [@ferbac0](https://twitter.com/ferbac0)
