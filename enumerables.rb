@@ -14,8 +14,11 @@ module Enumerable
   def my_each_with_index
     return enum_for(:my_each_with_index) unless block_given?
 
+    cont = 0
+
     my_each do |item|
-      self.class == Hash ? yield(item, find_index(item)) : yield(item, index(item))
+      yield(item, cont)
+      cont += 1
     end
   end
 
@@ -122,3 +125,5 @@ end
 def multiply_els(args)
   puts args.my_inject(:*)
 end
+
+
