@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/ModuleLength
 module Enumerable
   def my_each
     return enum_for(:my_each) unless block_given?
@@ -15,7 +16,6 @@ module Enumerable
     return enum_for(:my_each_with_index) unless block_given?
 
     cont = 0
-
     my_each do |item|
       yield(item, cont)
       cont += 1
@@ -29,8 +29,6 @@ module Enumerable
     my_each { |item| arr.push(item) if yield(item) }
     arr
   end
-
-  # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality
 
   def my_all?(args = nil)
     return true if empty?
@@ -118,12 +116,8 @@ module Enumerable
     end
     temp
   end
-
-  # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality
 end
-
+# rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/ModuleLength
 def multiply_els(args)
   puts args.my_inject(:*)
 end
-
-
