@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/ModuleLength
+# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality
 module Enumerable
   def my_each
     return enum_for(:my_each) unless block_given?
@@ -96,28 +96,27 @@ module Enumerable
     return enum_for(:my_map) unless block_given?
 
     new_array = []
-    if args.nil?
-      my_each { |item| new_array.push(yield(item)) }
-    else
-      my_each { |item| new_array.push(args.call(item)) }
-    end
+    args.nil? ? my_each { |item| new_array.push(yield(item)) } : my_each { |item| new_array.push(args.call(item)) }
     new_array
   end
 
   def my_inject(*args)
     arr = *self
+
     if block_given?
       temp = args[0] if args.length == 1
       temp = arr.shift unless args.nil? || args.length == 1
       arr.my_each { |item| temp = yield(temp, item) }
     else
-      temp = arr.shift unless args.nil? || args.length == 2
+      temp = args.length > 1 ? args.shift : arr.shift
       arr.my_each { |item| temp = temp.send(args[0].to_s, item) }
+      return temp
     end
     temp
   end
 end
-# rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/ModuleLength
+
+# rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Style/CaseEquality
 def multiply_els(args)
   puts args.my_inject(:*)
 end
